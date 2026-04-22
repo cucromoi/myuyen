@@ -54,3 +54,23 @@ function createHeart() {
 }
 
 setInterval(createHeart, 700);
+const bgMusic = document.getElementById("bgMusic");
+
+// Trick để auto play (do trình duyệt chặn)
+window.addEventListener("load", () => {
+  if (bgMusic) {
+    bgMusic.muted = true;
+    bgMusic.play().then(() => {
+      // Sau khi play được thì mở tiếng lại
+      setTimeout(() => {
+        bgMusic.muted = false;
+      }, 500);
+    }).catch(() => {
+      // fallback: click 1 cái bất kỳ sẽ phát nhạc
+      document.body.addEventListener("click", () => {
+        bgMusic.muted = false;
+        bgMusic.play();
+      }, { once: true });
+    });
+  }
+});
